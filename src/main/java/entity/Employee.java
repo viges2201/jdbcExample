@@ -2,20 +2,24 @@ package entity;
 
 import java.sql.Date;
 
+
 public class Employee {
-    private long id;
+
+    private Long id;
     private String firstName;
     private String lastName;
     private Date birthday;
+    private Long addressId;
 
     public Employee() {
+
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,6 +47,14 @@ public class Employee {
         this.birthday = birthday;
     }
 
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,18 +62,20 @@ public class Employee {
 
         Employee employee = (Employee) o;
 
-        if (id != employee.id) return false;
+        if (id != null ? !id.equals(employee.id) : employee.id != null) return false;
         if (firstName != null ? !firstName.equals(employee.firstName) : employee.firstName != null) return false;
         if (lastName != null ? !lastName.equals(employee.lastName) : employee.lastName != null) return false;
-        return birthday != null ? birthday.equals(employee.birthday) : employee.birthday == null;
+        if (birthday != null ? !birthday.equals(employee.birthday) : employee.birthday != null) return false;
+        return addressId != null ? addressId.equals(employee.addressId) : employee.addressId == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (addressId != null ? addressId.hashCode() : 0);
         return result;
     }
 
@@ -72,6 +86,7 @@ public class Employee {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthday=" + birthday +
+                ", addressID=" + addressId +
                 '}';
     }
 }

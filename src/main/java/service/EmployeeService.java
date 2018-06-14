@@ -1,34 +1,34 @@
 package service;
 
 import bl.Util;
-import dao.AddressDAO;
-import entity.Address;
+import dao.EmployeeDAO;
+import entity.Employee;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class AddressService extends Util implements AddressDAO {
+public class EmployeeService extends Util implements EmployeeDAO {
 
-    private Connection connection = null;
+    Connection connection = null;
 
     @Override
-    public void add(Address address) throws SQLException {
+    public void add(Employee employee) throws SQLException {
         PreparedStatement preparedStatement = null;
         connection = getConnection();
 
-        String sql = "INSERT INTO ADDRESS (COUNTRY, CITY, STREET, POST_CODE) VALUES(?, ?, ?, ?)";
-//        String sql = "INSERT INTO ADDRESS (ID, COUNTRY, CITY, STREET, POST_CODE) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO EMPLOYEE (FIRST_NAME, LAST_NAME, BIRTHDAY, ADDRESS_ID) VALUES(?, ?, ?, ?)";
+//        String sql = "INSERT INTO EMPLOYEE (ID, FIRST_NAME, LAST_NAME, BIRTHDAY, ADDRESS_ID) VALUES(?, ?, ?, ?, ?)";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
 
-//            preparedStatement.setLong(1, address.getId());
-            preparedStatement.setString(1, address.getCountry());
-            preparedStatement.setString(2, address.getCity());
-            preparedStatement.setString(3, address.getStreet());
-            preparedStatement.setString(4, address.getPostCode());
+//            preparedStatement.setLong(1, employee.getId());
+            preparedStatement.setString(1, employee.getFirstName());
+            preparedStatement.setString(2, employee.getLastName());
+            preparedStatement.setDate(3, employee.getBirthday());
+            preparedStatement.setLong(4, employee.getAddressId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -44,11 +44,12 @@ public class AddressService extends Util implements AddressDAO {
     }
 
     @Override
-    public List<Address> getAll() throws SQLException {
-        List<Address> addressList = new ArrayList<>();
+    public List<Employee> getAll() throws SQLException {
+        List<Employee> employeeList = new ArrayList<>();
         connection = getConnection();
 
-        String sql = "SELECT ID, COUNTRY, CITY, STREET, POST_CODE FROM ADDRESS";
+        String sql = "SELECT ID, FIRST_NAME, LAST_NAME, BIRTHDAY, ADDRESS_ID " +
+                "FROM EMPLOYEE";
 
         Statement statement = null;
         try {
@@ -57,14 +58,14 @@ public class AddressService extends Util implements AddressDAO {
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                Address address = new Address();
-                address.setId(resultSet.getLong("ID"));
-                address.setCountry(resultSet.getString("COUNTRY"));
-                address.setCity(resultSet.getString("CITY"));
-                address.setStreet(resultSet.getString("STREET"));
-                address.setPostCode(resultSet.getString("POST_CODE"));
+                Employee employee = new Employee();
+                employee.setId(resultSet.getLong("ID"));
+                employee.setFirstName(resultSet.getString("FIRST_NAME"));
+                employee.setLastName(resultSet.getString("LAST_NAME"));
+                employee.setBirthday(resultSet.getDate("BIRTHDAY"));
+                employee.setAddressId(resultSet.getLong("ADDRESS_ID"));
 
-                addressList.add(address);
+                employeeList.add(employee);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,28 +77,28 @@ public class AddressService extends Util implements AddressDAO {
                 connection.close();
             }
         }
-        return addressList;
+        return employeeList;
     }
 
     @Override
-    public Address getById(Long id) throws SQLException {
+    public Employee getById(Long id) throws SQLException {
         PreparedStatement preparedStatement = null;
         connection = getConnection();
 
         String sql = "SELECT ID, COUNTRY, CITY, STREET, POST_CODE FROM ADDRESS WHERE ID=?";
 
-        Address address = new Address();
+        Employee employee = new Employee();
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            address.setId(resultSet.getLong("ID"));
-            address.setCountry(resultSet.getString("COUNTRY"));
-            address.setCity(resultSet.getString("CITY"));
-            address.setStreet(resultSet.getString("STREET"));
-            address.setPostCode(resultSet.getString("POST_CODE"));
+            employee.setId(resultSet.getLong("ID"));
+            employee.setFirstName(resultSet.getString("FIRST_NAME"));
+            employee.setLastName(resultSet.getString("LAST_NAME"));
+            employee.setBirthday(resultSet.getDate("BIRTHDAY"));
+            employee.setAddressId(resultSet.getLong("ADDRESS_ID"));
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -110,24 +111,24 @@ public class AddressService extends Util implements AddressDAO {
                 connection.close();
             }
         }
-        return address;
+        return employee;
     }
 
     @Override
-    public void update(Address address) throws SQLException {
+    public void update(Employee employee) throws SQLException {
         PreparedStatement preparedStatement = null;
         connection = getConnection();
 
-        String sql = "UPDATE ADDRESS SET COUNTRY=?, CITY=?, STREET=?, POST_CODE=? WHERE ID=?";
+        String sql = "UPDATE EMPLOYEE SET FIRST_NAME=?, LAST_NAME=?, BIRTHDAY=?, ADDRESS_ID=? WHERE ID=?";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, address.getCountry());
-            preparedStatement.setString(2, address.getCity());
-            preparedStatement.setString(3, address.getStreet());
-            preparedStatement.setString(4, address.getPostCode());
-            preparedStatement.setLong(5, address.getId());
+            preparedStatement.setString(1, employee.getFirstName());
+            preparedStatement.setString(2, employee.getLastName());
+            preparedStatement.setDate(3, employee.getBirthday());
+            preparedStatement.setLong(4, employee.getAddressId());
+            preparedStatement.setLong(5, employee.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -143,16 +144,16 @@ public class AddressService extends Util implements AddressDAO {
     }
 
     @Override
-    public void remove(Address address) throws SQLException {
+    public void remove(Employee employee) throws SQLException {
         PreparedStatement preparedStatement = null;
         connection = getConnection();
 
-        String sql = "DELETE FROM ADDRESS WHERE ID=?";
+        String sql = "DELETE FROM EMPLOYEE WHERE ID=?";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setLong(1, address.getId());
+            preparedStatement.setLong(1, employee.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

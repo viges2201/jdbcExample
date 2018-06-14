@@ -1,20 +1,23 @@
 package entity;
 
+
 public class Address {
-    private long id;
+
+    private Long id;
     private String country;
     private String city;
     private String street;
-    private String postcode;
+    private String postCode;
 
     public Address() {
+
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -42,12 +45,12 @@ public class Address {
         this.street = street;
     }
 
-    public String getPostcode() {
-        return postcode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     @Override
@@ -57,20 +60,20 @@ public class Address {
 
         Address address = (Address) o;
 
-        if (id != address.id) return false;
+        if (id != null ? !id.equals(address.id) : address.id != null) return false;
         if (country != null ? !country.equals(address.country) : address.country != null) return false;
         if (city != null ? !city.equals(address.city) : address.city != null) return false;
         if (street != null ? !street.equals(address.street) : address.street != null) return false;
-        return postcode != null ? postcode.equals(address.postcode) : address.postcode == null;
+        return postCode != null ? postCode.equals(address.postCode) : address.postCode == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
+        result = 31 * result + (postCode != null ? postCode.hashCode() : 0);
         return result;
     }
 
@@ -81,7 +84,7 @@ public class Address {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
-                ", postcode='" + postcode + '\'' +
+                ", postCode='" + postCode + '\'' +
                 '}';
     }
 }

@@ -1,18 +1,29 @@
 package entity;
 
+
 public class EmplProj {
-    private long projectId;
-    private long empployeeId;
+
+    private Long employeeId;
+    private Long projectId;
 
     public EmplProj() {
+
     }
 
-    @Override
-    public String toString() {
-        return "EmplProj{" +
-                "projectId=" + projectId +
-                ", empployeeId=" + empployeeId +
-                '}';
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     @Override
@@ -22,30 +33,22 @@ public class EmplProj {
 
         EmplProj emplProj = (EmplProj) o;
 
-        if (projectId != emplProj.projectId) return false;
-        return empployeeId == emplProj.empployeeId;
+        if (employeeId != null ? !employeeId.equals(emplProj.employeeId) : emplProj.employeeId != null) return false;
+        return projectId != null ? projectId.equals(emplProj.projectId) : emplProj.projectId == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (projectId ^ (projectId >>> 32));
-        result = 31 * result + (int) (empployeeId ^ (empployeeId >>> 32));
+        int result = employeeId != null ? employeeId.hashCode() : 0;
+        result = 31 * result + (projectId != null ? projectId.hashCode() : 0);
         return result;
     }
 
-    public long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(long projectId) {
-        this.projectId = projectId;
-    }
-
-    public long getEmpployeeId() {
-        return empployeeId;
-    }
-
-    public void setEmpployeeId(long empployeeId) {
-        this.empployeeId = empployeeId;
+    @Override
+    public String toString() {
+        return "EmplProj{" +
+                "employeeId=" + employeeId +
+                ", projectId=" + projectId +
+                '}';
     }
 }
